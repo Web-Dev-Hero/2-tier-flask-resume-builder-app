@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@localhost/resume_builder'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://username:password@172.19.0.2:3306/todo_app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -33,6 +33,7 @@ def submit():
     return redirect('/')
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(host="0.0.0.0", port=5000)
 
